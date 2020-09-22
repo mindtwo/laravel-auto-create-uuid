@@ -2,9 +2,9 @@
 [![Build Status](https://travis-ci.org/mindtwo/laravel-auto-create-uuid.svg?branch=master)](https://travis-ci.org/mindtwo/laravel-auto-create-uuid)
 [![StyleCI](https://styleci.io/repos/160357333/shield)](https://styleci.io/repos/160357333)
 [![Quality Score](https://img.shields.io/scrutinizer/g/mindtwo/laravel-auto-create-uuid.svg?style=flat-square)](https://scrutinizer-ci.com/g/mindtwo/laravel-auto-create-uuid)
-[![Latest Stable Version](https://poser.pugx.org/mindtwo/laravel-auto-create-uuid/v/stable)](https://packagist.org/packages/mindtwo/laravel-auto-create-uuid)
-[![Total Downloads](https://poser.pugx.org/mindtwo/laravel-auto-create-uuid/downloads)](https://packagist.org/packages/mindtwo/laravel-auto-create-uuid)
-[![License](https://poser.pugx.org/mindtwo/laravel-auto-create-uuid/license)](https://packagist.org/packages/mindtwo/laravel-auto-create-uuid)
+[![Latest Stable Version](https://img.shields.io/packagist/v/mindtwo/laravel-auto-create-uuid?style=flat-square)](https://packagist.org/packages/mindtwo/laravel-auto-create-uuid)
+[![Total Downloads](https://img.shields.io/packagist/dt/mindtwo/laravel-auto-create-uuid.svg?style=flat-square)](https://packagist.org/packages/mindtwo/laravel-auto-create-uuid)
+[![MIT Software License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE.md)
 
 ## Installation
 
