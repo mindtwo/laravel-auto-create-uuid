@@ -2,12 +2,19 @@
 
 namespace mindtwo\LaravelAutoCreateUuid\Tests\Feature;
 
+use mindtwo\LaravelAutoCreateUuid\AutoCreateUuid;
 use mindtwo\LaravelAutoCreateUuid\Tests\TestCase;
+use Illuminate\Database\Eloquent\Model;
 
 class AutoCreateUuidTest extends TestCase
 {
-    public function testAutoCreateUuid()
+    public function testUuidIsFilled()
     {
-        $this->markTestIncomplete();
+        $test = (new Test())->create();
+        $this->assertNotEmpty($test->uuid);
     }
 }
+
+class Test extends Model {
+	use AutoCreateUuid;
+};
