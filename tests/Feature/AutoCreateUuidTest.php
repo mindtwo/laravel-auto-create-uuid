@@ -2,9 +2,9 @@
 
 namespace mindtwo\LaravelAutoCreateUuid\Tests\Feature;
 
+use Illuminate\Database\Eloquent\Model;
 use mindtwo\LaravelAutoCreateUuid\AutoCreateUuid;
 use mindtwo\LaravelAutoCreateUuid\Tests\TestCase;
-use Illuminate\Database\Eloquent\Model;
 
 class AutoCreateUuidTest extends TestCase
 {
@@ -15,6 +15,7 @@ class AutoCreateUuidTest extends TestCase
     }
 }
 
-class Test extends Model {
-	use AutoCreateUuid;
-};
+class Test extends Model
+{
+    use AutoCreateUuid;
+}
