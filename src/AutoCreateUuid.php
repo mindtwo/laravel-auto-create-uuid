@@ -3,6 +3,7 @@
 namespace mindtwo\LaravelAutoCreateUuid;
 
 use Illuminate\Support\Str;
+use Ramsey\Uuid\Uuid;
 
 trait AutoCreateUuid
 {
@@ -13,7 +14,9 @@ trait AutoCreateUuid
     {
         // Auto populate uuid column on model creation
         static::creating(function ($model) {
-            $model->{$model->getUuidColumn()} = Str::uuid()->toString();
+            if(empty($model->{$model->getUuidColumn()}) || !Uuid::isValid($model->{$model->getUuidColumn()})) {
+                $model->{$model->getUuidColumn()} = Str::uuid()->toString();
+            }
         });
     }
 
