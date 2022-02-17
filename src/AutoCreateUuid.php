@@ -14,7 +14,7 @@ trait AutoCreateUuid
     {
         // Auto populate uuid column on model creation
         static::creating(function ($model) {
-            if(empty($model->{$model->getUuidColumn()}) || !Uuid::isValid($model->{$model->getUuidColumn()})) {
+            if (empty($model->{$model->getUuidColumn()}) || ! Uuid::isValid($model->{$model->getUuidColumn()})) {
                 $model->{$model->getUuidColumn()} = Str::uuid()->toString();
             }
         });
