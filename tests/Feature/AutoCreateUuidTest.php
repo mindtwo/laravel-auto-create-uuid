@@ -11,7 +11,16 @@ class AutoCreateUuidTest extends TestCase
     public function testUuidIsFilled()
     {
         $test = (new Test())->create();
-        $this->assertNotEmpty($test->uuid);
+        $this->assertNotEmpty($test->uuid, 'can create a model with auto created uuid');
+    }
+
+    public function testReplicateModel()
+    {
+        $test = (new Test())->create();
+
+        $replicated = $test->replicate();
+
+        $this->assertNotEquals($test->uuid, $replicated->uuid, 'can replicate model without double uuids');
     }
 }
 
