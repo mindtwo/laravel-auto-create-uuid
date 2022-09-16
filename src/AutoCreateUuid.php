@@ -23,7 +23,7 @@ trait AutoCreateUuid
     }
 
     /**
-     * Eventlistener to fill in uuid column on model
+     * Eventlistener to fill in uuid column on model.
      *
      * @return void
      */
