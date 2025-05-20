@@ -1,4 +1,12 @@
-vendor/
+.idea
+
+.phpunit.cache
+build
 composer.lock
-.phpunit.result.cache
-.gitignore
+coverage
+docs
+phpunit.xml
+phpstan.neon
+testbench.yaml
+vendor
+node_modules
