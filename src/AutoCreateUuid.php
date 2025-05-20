@@ -24,8 +24,6 @@ trait AutoCreateUuid
 
     /**
      * Eventlistener to fill in uuid column on model.
-     *
-     * @return void
      */
     public function fillUuidColumn(): void
     {
@@ -36,8 +34,6 @@ trait AutoCreateUuid
 
     /**
      * Get the column name for uuid attribute.
-     *
-     * @return string
      */
     public function getUuidColumn(): string
     {
@@ -47,7 +43,6 @@ trait AutoCreateUuid
     /**
      * Clone the model into a new, non-existing instance.
      *
-     * @param  array|null  $except
      * @return static
      */
     public function replicate(?array $except = null)

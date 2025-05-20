@@ -9,12 +9,12 @@ class Test extends Model
 }
 
 it('can create a model with auto created uuid', function () {
-    $test = (new Test())->create();
+    $test = (new Test)->create();
     expect($test->uuid)->not()->toBeEmpty();
 })->group('auto-create-uuid');
 
 it('can replicate model without double uuids', function () {
-    $test = (new Test())->create();
+    $test = (new Test)->create();
 
     $replicated = $test->replicate();
 
