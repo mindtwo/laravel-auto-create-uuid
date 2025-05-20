@@ -14,14 +14,33 @@ jobs:
         laravel: [10.*, 9.*, 11.*, 12.*]
         stability: [prefer-lowest, prefer-stable]
         include:
-          - laravel: 10.*
-            testbench: 8.*
           - laravel: 9.*
             testbench: 6.*
+          - laravel: 10.*
+            testbench: 8.*
           - laravel: 11.*
-            testbench: 8.*
+            testbench: 9.*
           - laravel: 12.*
+            testbench: 10.*
+        exclude:
+          - php: 8.0
+            laravel: 10.*
             testbench: 8.*
+          - php: 8.0
+            laravel: 11.*
+            testbench: 9.*
+          - php: 8.0
+            laravel: 12.*
+            testbench: 10.*
+          - php: 8.1
+            laravel: 9.*
+            testbench: 6.*
+          - php: 8.2
+            laravel: 9.*
+            testbench: 6.*
+          - php: 8.3
+            laravel: 9.*
+            testbench: 6.*
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
