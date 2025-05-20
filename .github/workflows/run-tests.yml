@@ -99,4 +99,9 @@ jobs:
         run: composer show -D
 
       - name: Execute tests
-        run: vendor/bin/pest --ci
+        run: |
+          if ./vendor/bin/pest --version | grep -q 'v1\.'; then
+            ./vendor/bin/pest
+          else
+            ./vendor/bin/pest --ci
+          fi
