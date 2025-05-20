@@ -50,7 +50,7 @@ trait AutoCreateUuid
      * @param  array|null  $except
      * @return static
      */
-    public function replicate(array $except = null)
+    public function replicate(?array $except = null)
     {
         $except = $except ?? [];
         if (! in_array($this->getUuidColumn(), $except)) {
