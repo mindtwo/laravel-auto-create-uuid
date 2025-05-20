@@ -23,22 +23,49 @@ jobs:
           - laravel: 12.*
             testbench: 10.*
         exclude:
+          # Exclude everything for PHP 8.0 except for Laravel 9
           - php: 8.0
             laravel: 10.*
           - php: 8.0
             laravel: 11.*
           - php: 8.0
             laravel: 12.*
+          # Exclude everything for PHP 8.1 except for Laravel 9
           - php: 8.1
             laravel: 10.*
           - php: 8.1
             laravel: 11.*
           - php: 8.1
             laravel: 12.*
+          # Exclude laravel 9 for PHP 8.2
           - php: 8.2
             laravel: 9.*
           - php: 8.3
             laravel: 9.*
+          # Exclude stability lowest for PHP 8.2 with laravel 10/11
+          - php: 8.2
+            laravel: 10.*
+            stability: prefer-lowest
+          - php: 8.2
+            laravel: 11.*
+            stability: prefer-lowest
+          # Exclude laravel 9 for PHP 8.3
+          - php: 8.3
+            laravel: 9.*
+          - php: 8.3
+            laravel: 9.*
+          # Exclude stability lowest for PHP 8.3 with laravel 10/11
+          - php: 8.3
+            laravel: 10.*
+            stability: prefer-lowest
+          - php: 8.3
+            laravel: 11.*
+            stability: prefer-lowest
+          # Exclude laravel 9 for PHP 8.4
+          # - php: 8.4
+          #   laravel: 9.*
+          # - php: 8.4
+          #   laravel: 9.*
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
