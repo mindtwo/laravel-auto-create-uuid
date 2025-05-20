@@ -10,7 +10,7 @@ jobs:
       fail-fast: true
       matrix:
         os: [ubuntu-latest]
-        php: [8.1, 8.2]
+        php: [8.1, 8.2, 8.3, 8.4]
         laravel: [9.*, 10.*,11.*, 12.*]
         stability: [prefer-lowest, prefer-stable]
         include:
@@ -38,19 +38,18 @@ jobs:
           # Exclude laravel 9 for PHP 8.2
           - php: 8.2
             laravel: 9.*
-          - php: 8.3
-            laravel: 9.*
-
-          # Exclude stability lowest for PHP 8.2 with laravel 10/11
+          # Exclude stability lowest for PHP 8.2 with laravel 10/11/12
           - php: 8.2
             laravel: 10.*
             stability: prefer-lowest
           - php: 8.2
             laravel: 11.*
             stability: prefer-lowest
+          - php: 8.2
+            laravel: 12.*
+            stability: prefer-lowest
+
           # Exclude laravel 9 for PHP 8.3
-          - php: 8.3
-            laravel: 9.*
           - php: 8.3
             laravel: 9.*
           # Exclude stability lowest for PHP 8.3 with laravel 10/11
