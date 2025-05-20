@@ -101,7 +101,9 @@ jobs:
       - name: Execute tests
         run: |
           if ./vendor/bin/pest --version | grep -q 'PHPUnit 9\.'; then
+            echo "Running tests with ./vendor/bin/pest"
             ./vendor/bin/pest
           else
+            echo "Running tests with ./vendor/bin/pest --ci"
             ./vendor/bin/pest --ci
           fi
