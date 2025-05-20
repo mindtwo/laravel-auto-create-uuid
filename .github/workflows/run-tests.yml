@@ -67,7 +67,7 @@ jobs:
           # - php: 8.4
           #   laravel: 9.*
 
-    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
+    name: L${{ matrix.laravel }} - P${{ matrix.php }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
     steps:
       - name: Checkout code
