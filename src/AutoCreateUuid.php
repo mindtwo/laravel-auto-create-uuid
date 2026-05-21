@@ -3,16 +3,16 @@
 namespace mindtwo\LaravelAutoCreateUuid;
 
 use Illuminate\Support\Str;
-use Ramsey\Uuid\Uuid;
 
 trait AutoCreateUuid
 {
     /**
-     * Boot auto create uuid trait.
+     * Boot the auto create UUID trait for a model.
+     *
+     * @return void
      */
     public static function bootAutoCreateUuid()
     {
-        // Auto populate uuid column on model creation
         static::creating(function ($model) {
             $model->fillUuidColumn();
         });
@@ -23,19 +23,27 @@ trait AutoCreateUuid
     }
 
     /**
-     * Eventlistener to fill in uuid column on model.
+     * Fill the model's UUID column with a new UUID if it is empty or invalid.
+     *
+     * @return void
      */
-    public function fillUuidColumn(): void
+    public function fillUuidColumn()
     {
-        if (empty($this->{$this->getUuidColumn()}) || ! Uuid::isValid($this->{$this->getUuidColumn()})) {
-            $this->{$this->getUuidColumn()} = Str::uuid()->toString();
+        $column = $this->getUuidColumn();
+
+        if (! empty($this->{$column}) && Str::isUuid($this->{$column})) {
+            return;
         }
+
+        $this->{$column} = Str::uuid()->toString();
     }
 
     /**
-     * Get the column name for uuid attribute.
+     * Get the column name that stores the model's UUID.
+     *
+     * @return string
      */
-    public function getUuidColumn(): string
+    public function getUuidColumn()
     {
         return ! empty($this->uuid_column) ? $this->uuid_column : 'uuid';
     }
@@ -43,12 +51,17 @@ trait AutoCreateUuid
     /**
      * Clone the model into a new, non-existing instance.
      *
+     * Excludes the UUID column from the cloned attributes so the replica
+     * receives a fresh UUID via the "replicating" model event.
+     *
+     * @param  array<int, string>|null  $except
      * @return static
      */
     public function replicate(?array $except = null)
     {
-        $except = $except ?? [];
-        if (! in_array($this->getUuidColumn(), $except)) {
+        $except ??= [];
+
+        if (! in_array($this->getUuidColumn(), $except, true)) {
             $except[] = $this->getUuidColumn();
         }
 

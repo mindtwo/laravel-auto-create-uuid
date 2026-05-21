@@ -1,8 +1,15 @@
 {
     "name": "mindtwo/laravel-auto-create-uuid",
-    "description": "Laravel Auto Create UUID",
+    "description": "Automatically generate UUIDs for Eloquent models on creation and replication.",
     "license": "MIT",
-    "type": "package",
+    "type": "library",
+    "keywords": [
+        "laravel",
+        "eloquent",
+        "uuid",
+        "trait",
+        "model"
+    ],
     "authors": [
         {
             "name": "mindtwo GmbH",
@@ -11,17 +18,15 @@
             "role": "Developer"
         }
     ],
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "require": {
-        "php": "^8.0|^8.1|^8.2|^8.3|^8.4|^8.5",
-        "illuminate/support": "^7.4|^8.0|^9.0|^10.0|^11.0|^12.0|^13.0"
+        "php": "^8.2",
+        "illuminate/support": "^10.0 || ^11.0 || ^12.0 || ^13.0"
     },
     "require-dev": {
-        "larastan/larastan": "^1.0 || ^2.0 || ^3.0",
-        "laravel/pint": "^1.0",
-        "orchestra/testbench": "^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0",
-        "pestphp/pest": "^1.0 || ^2.0 || ^3.0 || ^4.0"
+        "larastan/larastan": "^2.9 || ^3.0",
+        "laravel/pint": "^1.18",
+        "orchestra/testbench": "^8.0 || ^9.0 || ^10.0 || ^11.0",
+        "pestphp/pest": "^2.0 || ^3.0 || ^4.0"
     },
     "autoload": {
         "psr-4": {
@@ -33,28 +38,18 @@
             "mindtwo\\LaravelAutoCreateUuid\\Tests\\": "tests/"
         }
     },
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint"
+    },
     "config": {
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true
         }
     },
-    "scripts": {
-        "post-autoload-dump": "@composer run prepare",
-        "clear": "@php vendor/bin/testbench package:purge-laravel-translatable --ansi",
-        "prepare": "@php vendor/bin/testbench package:discover --ansi",
-        "build": [
-            "@composer run prepare",
-            "@php vendor/bin/testbench workbench:build --ansi"
-        ],
-        "start": [
-            "Composer\\Config::disableProcessTimeout",
-            "@composer run build",
-            "@php vendor/bin/testbench serve"
-        ],
-        "analyse": "vendor/bin/phpstan analyse",
-        "test": "vendor/bin/pest",
-        "test-coverage": "vendor/bin/pest --coverage",
-        "format": "vendor/bin/pint"
-    }
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

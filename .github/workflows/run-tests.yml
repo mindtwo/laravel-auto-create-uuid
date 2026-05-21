@@ -1,78 +1,46 @@
 name: run-tests
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [master]
+  pull_request:
 
 jobs:
   test:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     timeout-minutes: 5
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest]
-        php: [8.1, 8.2, 8.3, 8.4]
-        laravel: [9.*, 10.*,11.*, 12.*]
+        php: ['8.2', '8.3', '8.4']
+        laravel: ['10.*', '11.*', '12.*', '13.*']
         stability: [prefer-lowest, prefer-stable]
         include:
-          - laravel: 9.*
-            testbench: 7.*
           - laravel: 10.*
             testbench: 8.*
           - laravel: 11.*
             testbench: 9.*
           - laravel: 12.*
             testbench: 10.*
+          - laravel: 13.*
+            testbench: 11.*
         exclude:
-          # Exclude everything for PHP 8.1 except for Laravel 9
-          - php: 8.1
-            laravel: 10.*
-          - php: 8.1
-            laravel: 11.*
-          - php: 8.1
-            laravel: 12.*
-          # Exclude Laravel 9 with stability lowest
-          - php: 8.1
-            laravel: 9.*
-            stability: prefer-lowest
-
-          # Exclude laravel 9 for PHP 8.2
-          - php: 8.2
-            laravel: 9.*
-          # Exclude stability lowest for PHP 8.2 with laravel 10/11/12
-          - php: 8.2
+          # Laravel 13 requires PHP 8.3+
+          - php: '8.2'
+            laravel: 13.*
+          # Laravel 10.0 (prefer-lowest) does not support PHP 8.3+
+          - php: '8.3'
             laravel: 10.*
             stability: prefer-lowest
-          - php: 8.2
-            laravel: 11.*
-            stability: prefer-lowest
-          - php: 8.2
-            laravel: 12.*
-            stability: prefer-lowest
-
-          # Exclude laravel 9 for PHP 8.3
-          - php: 8.3
-            laravel: 9.*
-          # Exclude stability lowest for PHP 8.3 with laravel 10/11
-          - php: 8.3
+          - php: '8.4'
             laravel: 10.*
             stability: prefer-lowest
-          - php: 8.3
+          # Laravel 11.0 (prefer-lowest) does not support PHP 8.4
+          - php: '8.4'
             laravel: 11.*
             stability: prefer-lowest
-          # Exclude laravel 9 for PHP 8.4
-          - php: 8.4
-            laravel: 9.*
-          - php: 8.4
-            laravel: 9.*
-          # Exclude stability lowest for PHP 8.4 with laravel 10/11
-          # - php: 8.4
-          #   laravel: 10.*
-          #   stability: prefer-lowest
-          # - php: 8.4
-          #   laravel: 11.*
-          #   stability: prefer-lowest
 
-    name: L${{ matrix.laravel }} - P${{ matrix.php }} - ${{ matrix.stability }} - ${{ matrix.os }}
+    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }}
 
     steps:
       - name: Checkout code
@@ -82,7 +50,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
+          extensions: dom, curl, libxml, mbstring, zip, pdo, sqlite, pdo_sqlite, bcmath, intl, fileinfo
           coverage: none
 
       - name: Setup problem matchers
@@ -92,18 +60,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}"  --no-interaction --no-update
-          composer update --${{ matrix.stability }} --prefer-dist --no-interaction -W
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+          composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
-      - name: List Installed Dependencies
-        run: composer show -D
+      - name: List installed dependencies
+        run: composer show --direct
 
       - name: Execute tests
-        run: |
-          if ./vendor/bin/pest --version | grep -q 'PHPUnit 9\.'; then
-            echo "Running tests with ./vendor/bin/pest"
-            ./vendor/bin/pest
-          else
-            echo "Running tests with ./vendor/bin/pest --ci"
-            ./vendor/bin/pest --ci
-          fi
+        run: vendor/bin/pest --ci

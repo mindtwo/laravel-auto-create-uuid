@@ -1,28 +1,33 @@
-# Laravel Auto Create Uuid on Eloquent Models
-[![Build Status](https://travis-ci.org/mindtwo/laravel-auto-create-uuid.svg?branch=master)](https://travis-ci.org/mindtwo/laravel-auto-create-uuid)
-[![StyleCI](https://styleci.io/repos/160357333/shield)](https://styleci.io/repos/160357333)
-[![Quality Score](https://img.shields.io/scrutinizer/g/mindtwo/laravel-auto-create-uuid.svg?style=flat-square)](https://scrutinizer-ci.com/g/mindtwo/laravel-auto-create-uuid)
+# Laravel Auto Create UUID
+
 [![Latest Stable Version](https://img.shields.io/packagist/v/mindtwo/laravel-auto-create-uuid?style=flat-square)](https://packagist.org/packages/mindtwo/laravel-auto-create-uuid)
+[![run-tests](https://img.shields.io/github/actions/workflow/status/mindtwo/laravel-auto-create-uuid/run-tests.yml?branch=master&label=tests&style=flat-square)](https://github.com/mindtwo/laravel-auto-create-uuid/actions/workflows/run-tests.yml)
+[![PHPStan](https://img.shields.io/github/actions/workflow/status/mindtwo/laravel-auto-create-uuid/phpstan.yml?branch=master&label=phpstan&style=flat-square)](https://github.com/mindtwo/laravel-auto-create-uuid/actions/workflows/phpstan.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/mindtwo/laravel-auto-create-uuid?style=flat-square)](https://packagist.org/packages/mindtwo/laravel-auto-create-uuid)
-[![MIT Software License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE.md)
+[![License](https://img.shields.io/packagist/l/mindtwo/laravel-auto-create-uuid?style=flat-square)](LICENSE.md)
+
+Automatically populate a UUID column on Eloquent models when they are created
+or replicated. Drop the trait onto any model and the rest works without
+configuration.
 
 ## Installation
 
-You can install the package via composer:
+Install the package via Composer:
 
 ```bash
 composer require mindtwo/laravel-auto-create-uuid
 ```
 
-## How to use?
+## Requirements
 
-### Prepare eloquent model
+- PHP 8.2+
+- Laravel 10, 11, 12, or 13
 
-Simply use the AutoCreateUuid trait in your eloquent model.
+## Usage
+
+### Add the trait to a model
 
 ```php
-namespace example;
-
 use Illuminate\Database\Eloquent\Model;
 use mindtwo\LaravelAutoCreateUuid\AutoCreateUuid;
 
@@ -32,81 +37,87 @@ class Example extends Model
 }
 ```
 
-### Add UUID column to migration
-
-Make sure to add the column in your migration file.
+### Add a UUID column to the migration
 
 ```php
-$table->string('uuid', 36)->unique();
+$table->uuid('uuid')->unique();
 ```
 
-### Customize UUID attribute
+The trait listens to the `creating` and `replicating` model events and fills
+the configured UUID column with a new UUID v4 whenever the column is empty or
+holds an invalid UUID.
 
-The default attribute name for the auto generated UUID is 'uuid'. However you
-can customize it, if you need. There are two possibilities to do so. 
+### Customize the UUID column
 
-Either you set up a property named 'uuid_column':
+The default column name is `uuid`. To use a different column, either define a
+`$uuid_column` property:
 
 ```php
-namespace example;
-
-use Illuminate\Database\Eloquent\Model;
-use mindtwo\LaravelAutoCreateUuid\AutoCreateUuid;
-
 class Example extends Model
 {
     use AutoCreateUuid;
-    
-    protected $uuid_column = 'id'
+
+    protected string $uuid_column = 'identifier';
 }
 ```
 
-or you overload the getUuidColumn() method:
-
+or override the `getUuidColumn()` method:
 
 ```php
-namespace example;
-
-use Illuminate\Database\Eloquent\Model;
-use mindtwo\LaravelAutoCreateUuid\AutoCreateUuid;
-
 class Example extends Model
 {
     use AutoCreateUuid;
-    
-    /**
-     * Get the column name for uuid attribute.
-     *
-     * @return string
-     */
+
     public function getUuidColumn(): string
     {
-        return 'id';
+        return 'identifier';
     }
 }
 ```
 
-In both cases the attribute name for the UUID is now 'id' instead of 'uuid'.
- 
+### Replicating models
 
-### Changelog
+The trait overrides `Model::replicate()` to ensure the UUID column is excluded
+from the cloned attributes, so the replica receives a fresh UUID via the
+`replicating` event.
 
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+## Testing
+
+```bash
+composer test
+```
+
+## Static analysis
+
+```bash
+composer analyse
+```
+
+## Code style
+
+```bash
+composer format
+```
+
+## Changelog
+
+Please see [CHANGELOG](CHANGELOG.md) for a list of recent changes.
 
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
-### Security
+## Security
 
-If you discover any security related issues, please email info@mindtwo.de instead of using the issue tracker.
+If you discover any security related issues, please email info@mindtwo.de
+instead of using the issue tracker.
 
 ## Credits
 
 - [mindtwo GmbH](https://github.com/mindtwo)
-- [All Other Contributors](../../contributors)
+- [All Contributors](../../contributors)
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
- 
+The MIT License (MIT). Please see [License File](LICENSE.md) for more
+information.

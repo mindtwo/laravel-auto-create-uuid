@@ -2,6 +2,12 @@ name: PHPStan
 
 on:
   push:
+    branches: [master]
+    paths:
+      - '**.php'
+      - 'phpstan.neon.dist'
+      - '.github/workflows/phpstan.yml'
+  pull_request:
     paths:
       - '**.php'
       - 'phpstan.neon.dist'
@@ -18,11 +24,11 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: '8.3'
           coverage: none
 
       - name: Install composer dependencies
-        uses: ramsey/composer-install@v2
+        uses: ramsey/composer-install@v3
 
       - name: Run PHPStan
-        run: ./vendor/bin/phpstan --error-format=github
+        run: vendor/bin/phpstan analyse --error-format=github --memory-limit=512M

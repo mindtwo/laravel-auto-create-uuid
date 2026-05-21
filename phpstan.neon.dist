@@ -1,9 +1,13 @@
 includes:
-    - phpstan-baseline.neon
+    - vendor/larastan/larastan/extension.neon
 
 parameters:
-    paths:
-        - src/
-
-    # Level 10 is the highest level
     level: 8
+
+    paths:
+        - src
+        - tests
+
+    excludePaths:
+        - tests/Feature/ArchTest.php
+        - tests/database/*
